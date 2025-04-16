@@ -1,11 +1,14 @@
-import { Component, CodeBlockEvents, Player, NetworkEvent, LocalEvent, Entity } from 'horizon/core';
+import { Component, CodeBlockEvent, CodeBlockEvents, Player, NetworkEvent, LocalEvent, Entity, PropTypes } from 'horizon/core';
 
 class ConnectAndSend extends Component<typeof ConnectAndSend> {
     static propsDefinition = {};
 
     preStart() {
-        // connecting to a CodeBlock Event
+        // connecting to a built in CodeBlock Event
         this.connectCodeBlockEvent(this.entity, CodeBlockEvents.OnPlayerEnterTrigger, (player: Player) => this.OnPlayerEnterTrigger(player));
+
+        // connecting to a custom CodeBlock Event.
+        this.connectCodeBlockEvent(this.entity, new CodeBlockEvent<[numberVar: number, entityVar: Entity]>('CodeBlockEvent', [PropTypes.Number, PropTypes.Entity]), (numberVar: number, entityVar: Entity) => this.CodeBlockEvent(numberVar, entityVar));
 
         // connecting to a Network Event. This can be used to recieve an event from any object that is sending a network event to this object.
         this.connectNetworkEvent(this.entity, new NetworkEvent<{ numberVar: number, entityVar: Entity }>('NetworkEvent'), ({ numberVar, entityVar }) => this.NetworkEvent(numberVar, entityVar));
@@ -18,6 +21,8 @@ class ConnectAndSend extends Component<typeof ConnectAndSend> {
 
         // connecting to a Local Event. This can be used to recieve an event from any object that is broadcast a local event. NOTE: they must both be on the same client. Server to Server or Headset to Headset
         this.connectLocalBroadcastEvent(new LocalEvent<{ numberVar: number }>('LocalBroadcastEvent'), ({ numberVar }) => this.LocalBroadcastEvent(numberVar));
+
+        
     }
 
     start() {
@@ -25,6 +30,9 @@ class ConnectAndSend extends Component<typeof ConnectAndSend> {
     }
 
     SendingEvents(entityVar: Entity) {
+        // sending a Code Block Event
+        this.sendCodeBlockEvent(entityVar, new CodeBlockEvent<[numberVar: number, entityVar: Entity]>('CodeBlockEvent', [PropTypes.Number, PropTypes.Entity]), 0, entityVar );
+
         // sending a Network Event. This can be sent to any object that is connecting to this event.
         this.sendNetworkEvent(entityVar, new NetworkEvent<{ numberVar: number, entityVar: Entity }>('NetworkEvent'), { numberVar: 0, entityVar: entityVar });
 
@@ -56,6 +64,10 @@ class ConnectAndSend extends Component<typeof ConnectAndSend> {
 
     LocalBroadcastEvent(numberVar: number) {
         console.log("LocalBroadcastEvent")
+    }
+
+    CodeBlockEvent(numberVar: number, entityVar: Entity) {
+        console.log("CodeBlockEvent")
     }
 }
 Component.register(ConnectAndSend);
