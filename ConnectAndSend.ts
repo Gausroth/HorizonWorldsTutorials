@@ -22,7 +22,8 @@ class ConnectAndSend extends Component<typeof ConnectAndSend> {
         // connecting to a Local Event. This can be used to recieve an event from any object that is broadcast a local event. NOTE: they must both be on the same client. Server to Server or Headset to Headset
         this.connectLocalBroadcastEvent(new LocalEvent<{ numberVar: number }>('LocalBroadcastEvent'), ({ numberVar }) => this.LocalBroadcastEvent(numberVar));
 
-        
+
+        this.connectCodeBlockEvent(this.entity, new CodeBlockEvent<[p: Player]>('Occupied', [PropTypes.Player]), (p: Player) => this.OnPlayerOccupied(p))
     }
 
     start() {
