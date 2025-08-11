@@ -41,10 +41,10 @@ class ConnectAndSend extends Component<typeof ConnectAndSend> {
         this.sendNetworkBroadcastEvent(new NetworkEvent<{ numberVar: number, entityVar: Entity }>('NetworkBroadcastEvent'), { numberVar: 0, entityVar: entityVar });
 
         // sending a Local Event. This can be sent to any object that is connecting to this event. NOTE: they must both be on the same client. Server to Server or Headset to Headset
-        this.sendLocalEvent(entityVar, new NetworkEvent<{ numberVar: number, entityVar: Entity }>('LocalEvent'), { numberVar: 0, entityVar: entityVar });
+        this.sendLocalEvent(entityVar, new LocalEvent<{ numberVar: number, entityVar: Entity }>('LocalEvent'), { numberVar: 0, entityVar: entityVar });
 
         // sending a Local Broadcast Event. This is not sent to any object but any object that is connecting to this event will recieve it. NOTE: they must both be on the same client. Server to Server or Headset to Headset
-        this.sendLocalBroadcastEvent(new NetworkEvent<{ numberVar: number, entityVar: Entity }>('LocalBroadcastEvent'), { numberVar: 0, entityVar: entityVar });
+        this.sendLocalBroadcastEvent(new LocalEvent<{ numberVar: number, entityVar: Entity }>('LocalBroadcastEvent'), { numberVar: 0, entityVar: entityVar });
     }
 
     OnPlayerEnterTrigger(player: Player) {
