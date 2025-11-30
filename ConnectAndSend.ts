@@ -11,7 +11,6 @@ class ConnectAndSend extends Component<typeof ConnectAndSend> {
         this.connectCodeBlockEvent(this.entity, new CodeBlockEvent<[numberVar: number, entityVar: Entity]>('CodeBlockEvent', [PropTypes.Number, PropTypes.Entity]), (numberVar: number, entityVar: Entity) => this.CodeBlockEvent(numberVar, entityVar));
 
         // connecting to a Network Event. This can be used to recieve an event from any object that is sending a network event to this object.
-        this.connectNetworkEvent(this.entity, new NetworkEvent<{ numberVar: number, entityVar: Entity }>('NetworkEvent'), ({ numberVar, entityVar }) => this.NetworkEvent(numberVar, entityVar));
 
         // connecting to a Network Event. This can be used to recieve an event from any object that is broadcast a network event.
         this.connectNetworkBroadcastEvent(new NetworkEvent<{ numberVar: number, entityVar: Entity }>('NetworkBroadcastEvent'), ({ numberVar, entityVar }) => this.NetworkBroadcastEvent(numberVar, entityVar));
